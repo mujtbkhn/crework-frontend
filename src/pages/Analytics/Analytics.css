@@ -1,0 +1,17 @@
+.analytics-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 3rem;
+  gap: 1rem;
+}
+
+.analytics-container > * {
+  flex: 1 1 calc(50% - 1rem); 
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  .analytics-container > * {
+    flex: 1 1 100%;
+  }
+}

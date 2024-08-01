@@ -9,10 +9,17 @@ const TodoComp = ({
   todos,
   onMoveTask,
   fetchTodos,
-  isLoading
+  isLoading,
+  onDragStart,
+  onDragOver,
+  onDrop
 }) => {
   return (
-    <div className="todo__main">
+    <div 
+      className="todo__main"
+      onDragOver={(e) => onDragOver(e)}
+      onDrop={(e) => onDrop(e, name)}
+    >
       <div className="todo__top">
         <div>
           <h3>{name}</h3>
@@ -23,7 +30,12 @@ const TodoComp = ({
           <p>Loading...</p>
         ) : (
           todos?.map((todo) => (
-            <div key={todo._id} className="todo__item">
+            <div 
+              key={todo._id} 
+              className="todo__item"
+              draggable
+              onDragStart={(e) => onDragStart(e, todo._id, name)}
+            >
               <Todo
                 todo={todo}
                 sectionName={name}
@@ -33,7 +45,7 @@ const TodoComp = ({
             </div>
           ))
         )}
-         <div className="plus" onClick={() => onPlusClick(name)}>
+        <div className="plus" onClick={() => onPlusClick(name)}>
           <button className="plus-button">
             Add New
             <img src={PLUS} alt="Add new todo" className="plus-icon" />

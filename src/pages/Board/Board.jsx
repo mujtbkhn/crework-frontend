@@ -4,6 +4,7 @@ import "react-responsive-modal/styles.css";
 import TodoComp from "../../components/TodoComp/TodoComp";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { DragDropContext } from "react-beautiful-dnd";
 import "./Board.css";
 import {
   getUserFromToken,
@@ -162,6 +163,30 @@ const Board = () => {
     }
   };
 
+  const onDragStart = (e, todoId, sourceSection) => {
+    e.dataTransfer.setData("todoId", todoId);
+    e.dataTransfer.setData("sourceSection", sourceSection);
+  };
+
+  const onDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const onDrop = async (e, targetSection) => {
+    e.preventDefault();
+    const todoId = e.dataTransfer.getData("todoId");
+    const sourceSection = e.dataTransfer.getData("sourceSection");
+
+    if (sourceSection !== targetSection) {
+      try {
+        await moveTask(todoId, targetSection);
+        fetchTodos(selectedFilter);
+      } catch (error) {
+        console.error("Error moving task:", error);
+      }
+    }
+  };
+
   return (
     <div className="board__container">
       <div className="board__top">
@@ -192,6 +217,9 @@ const Board = () => {
             isLoading={isLoading}
             dueDate={dueDate}
             onPlusClick={() => onOpenModal("To do")}
+             onDragStart={onDragStart}
+            onDragOver={onDragOver}
+            onDrop={onDrop}
           />
           <TodoComp
             name="In Progress"
@@ -201,6 +229,9 @@ const Board = () => {
             isLoading={isLoading}
             dueDate={dueDate}
             onPlusClick={() => onOpenModal("In Progress")}
+             onDragStart={onDragStart}
+            onDragOver={onDragOver}
+            onDrop={onDrop}
           />
           <TodoComp
             name="Under Review"
@@ -210,6 +241,9 @@ const Board = () => {
             isLoading={isLoading}
             dueDate={dueDate}
             onPlusClick={() => onOpenModal("Under Review")}
+             onDragStart={onDragStart}
+            onDragOver={onDragOver}
+            onDrop={onDrop}
           />
           <TodoComp
             name="Finished"
@@ -219,6 +253,9 @@ const Board = () => {
             isLoading={isLoading}
             dueDate={dueDate}
             onPlusClick={() => onOpenModal("Finished")}
+             onDragStart={onDragStart}
+            onDragOver={onDragOver}
+            onDrop={onDrop}
           />
         </div>
         <Modal

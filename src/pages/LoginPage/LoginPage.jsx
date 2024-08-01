@@ -53,7 +53,7 @@ const LoginPage = () => {
           <button onClick={getLoggedInUser}>
             <span>Login</span>
           </button>
-          <p>Don’t have an account? Create a <span onClick={() => navigate("/register")}>New Account</span></p>
+          <p>Don’t have an account?<span style={{cursor: "pointer", color: "blue"}} onClick={() => navigate("/register")}> Create a New Account</span></p>
         </div>
       </div>
     </div>

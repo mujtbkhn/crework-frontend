@@ -84,7 +84,7 @@ const RegisterPage = () => {
           <button onClick={handleRegister}>
             <span>Register</span>
           </button>
-          <p>Already Have an account?<span onClick={() => navigate("/login")}>Log in</span></p>
+          <p>Already Have an account?<span style={{ cursor: "pointer", color: "blue" }} onClick={() => navigate("/login")}>Log in</span></p>
         </div>
       </div>
     </div>
